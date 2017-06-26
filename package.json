@@ -1,0 +1,37 @@
+{
+  "name": "feathers-nedb-fuzzy-search",
+  "version": "0.0.1",
+  "description": "hook which adds fuzzy search for NeDB through $search in find query",
+  "main": "index.js",
+  "scripts": {
+    "preversion": "npm test",
+    "postpublish": "git push && git push --tags",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arve0/feathers-nedb-fuzzy-search.git"
+  },
+  "keywords": [
+    "feathers",
+    "nedb",
+    "search",
+    "fuzzy"
+  ],
+  "author": "Arve Seljebu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arve0/feathers-nedb-fuzzy-search/issues"
+  },
+  "homepage": "https://github.com/arve0/feathers-nedb-fuzzy-search#readme",
+  "devDependencies": {
+    "feathers": "^2.1.4",
+    "feathers-hooks": "^2.0.1",
+    "feathers-nedb": "^2.6.2",
+    "nedb": "^1.8.0"
+  },
+  "dependencies": {
+    "escape-string-regexp": "^1.0.5"
+  },
+  "runkitExampleFilename": "example.js"
+}
