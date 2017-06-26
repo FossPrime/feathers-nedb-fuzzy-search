@@ -1,3 +1,6 @@
 language: node_js
 node_js:
   - "stable"
+before_script:
+  # force installing, not sure why travis fails when doing npm install itself
+  - npm install escape-string-regexp
