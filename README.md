@@ -11,23 +11,18 @@ npm install feathers-nedb-fuzzy-search
 ## Usage
 ```js
 const search = require('feathers-nedb-fuzzy-search')
+const messages = app.service('messages')
 
-// enable for one specific service
-app.service('someNeDBService').hooks({
+// enable for message service, may use app.hooks too
+messages.hooks({
   before: {
     find: search()
   }
 })
-// enable for all services
-app.hooks({
-  before: {
-    find: search()
-  }
-})
-// search only selected fields / properties, here title and description
-app.hooks({
-  before: {
-    find: search({ fields: ['title', 'description']})
+
+messages.find({
+  query: {
+    $search: 'some string to search for'
   }
 })
 ```
