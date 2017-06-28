@@ -6,7 +6,7 @@
   "scripts": {
     "preversion": "npm test",
     "postpublish": "git push && git push --tags",
-    "test": "node test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -28,10 +28,12 @@
     "feathers": "^2.1.4",
     "feathers-hooks": "^2.0.1",
     "feathers-nedb": "^2.6.2",
+    "mocha": "^3.4.2",
     "nedb": "^1.8.0"
   },
   "dependencies": {
-    "escape-string-regexp": "^1.0.5"
+    "escape-string-regexp": "^1.0.5",
+    "deep-reduce": "^1.0.5"
   },
   "runkitExampleFilename": "example.js"
 }

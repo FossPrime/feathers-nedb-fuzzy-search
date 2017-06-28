@@ -1,4 +1,5 @@
 const escape = require('escape-string-regexp')
+const deepReduce = require('deep-reduce')
 
 /**
  * Add $search to `service.find` query. If `options.fields`
@@ -47,27 +48,12 @@ function fuzzySearch (str, fields) {
   let r = new RegExp(escape(str), 'i')
 
   return function () {
-    if (fields) {
-      // if fields
-      for (let key of fields) {
-        if (!this.hasOwnProperty(key)) {
-          continue
-        }
-        if (this[key].match(r)) {
-          return true
-        }
-      }
-    } else {
-      for (let key in this) {
-        // do not search _id and similar fields
-        if (key[0] === '_' || !this.hasOwnProperty(key)) {
-          continue
-        }
-        if (this[key].match(r)) {
-          return true
-        }
-      }
-    }
-    return false
+    let result = deepReduce(this, (hit, value, path) =>
+      hit || (
+        (fields === undefined || fields.include(path)) &&
+        typeof value === 'string' &&
+        value.match(r) !== null
+      ), false)
+    return result
   }
 }

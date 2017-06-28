@@ -77,7 +77,7 @@ testDatabase()
 
 ## Development
 ```
-npm test  # runs node test.js
+npm test  # runs mocha, see test.js
 ```
 
 ## License
