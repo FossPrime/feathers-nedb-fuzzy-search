@@ -27,7 +27,20 @@ messages.find({
 })
 ```
 
-Complete example:
+### Options
+`feathers-nedb-fuzzy-search` take two options:
+
+```js
+search({
+  fields: ['search.this.path', 'this.path.too', 'title'],
+  deep: true
+})
+```
+
+- `fields` - Specify which fields to search.
+- `deep`- If true and `fields` is undefined, will search deep in objects.
+
+### Complete example
 ```js
 const feathers = require('feathers')
 const hooks = require('feathers-hooks')
