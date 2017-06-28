@@ -32,8 +32,9 @@
     "nedb": "^1.8.0"
   },
   "dependencies": {
+    "deep-reduce": "^1.0.5",
     "escape-string-regexp": "^1.0.5",
-    "deep-reduce": "^1.0.5"
+    "object-path": "^0.11.4"
   },
   "runkitExampleFilename": "example.js"
 }
