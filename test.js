@@ -51,7 +51,6 @@ after(function remove (done) {
 })
 
 it ('should find three documents with the text `pytagoras` in them.', async function () {
-  this.timeout(100)
   res = await service.find({ query: { $search: 'pytagoras' } })
   assert.equal(res.length, 3)
 })
