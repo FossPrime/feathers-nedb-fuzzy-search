@@ -1,6 +1,6 @@
 {
   "name": "feathers-nedb-fuzzy-search",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "hook which adds fuzzy search for NeDB through $search in find query",
   "main": "index.js",
   "scripts": {
