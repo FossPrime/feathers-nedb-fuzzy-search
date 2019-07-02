@@ -6,7 +6,7 @@ const errors = require('feathers-errors')
 
 function transformSearchFieldsInQuery (query, options, fieldName) {
   utils.each(query, (value, key) => {
-    if (key === '$text') {
+    if (key === '$text') { // MongoDB only, passthrough
       return
     }
     // Process current attribute or  recurse

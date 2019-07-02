@@ -1,5 +1,4 @@
 # MOVED
-Development of feathers-nedb-fuzzy-search have [moved to rayfoss](https://github.com/rayfoss/feathers-nedb-fuzzy-search).
 
 [![npm version](https://badge.fury.io/js/feathers-nedb-fuzzy-search.svg)](https://badge.fury.io/js/feathers-nedb-fuzzy-search) [![Build Status](https://travis-ci.org/arve0/feathers-nedb-fuzzy-search.svg?branch=master)](https://travis-ci.org/arve0/feathers-nedb-fuzzy-search)
 
@@ -19,19 +18,18 @@ const messages = app.service('messages')
 // enable for message service, may use app.hooks too
 messages.hooks({
   before: {
-    find: search()
+    find: search({['name', 'email']})
   }
 })
 
-messages.find({
-  query: {
-    $search: 'some string to search for'
-  }
-})
+let res = await service.find({ query: { name: { $search: 'ello' } } })
+let res = await service.find({ query: $search: 'ello' } })
 ```
+Besure to whitelist non-standard query parameters in your model.
+That's `['$text', '$regex']` for MongoDB , and `['$where', '$regex']` for NeDB. 
 
 ### Options
-`feathers-nedb-fuzzy-search` take two options:
+`feathers-nedb-fuzzy-search` take two options in NeDB `$where` mode:
 
 ```js
 search({
@@ -42,6 +40,13 @@ search({
 
 - `fields` - Specify which fields to search.
 - `deep`- If true and `fields` is undefined, will search deep in objects.
+
+In NeDB `$regex` mode it takes as service options the following:
+
+- `excludeFields` - Specify which fields to exclude from search.
+- `fields` - Specify which fields to search. Mutually exclusive. 
+
+As query parameters it also takes `$caseSensitive`
 
 ### Complete example
 ```js
@@ -81,9 +86,11 @@ async function testDatabase () {
   ])
 
   let res = await service.find({ query: { $search: 'world' } })
+  let res = await service.find({ query: { title: { $search: 'ello' } } })
 
   console.log(res)
   // [ { title: 'world around', _id: '1RDM5BJWX4DWr1Jg' },
+  //   { title: 'hello world', _id: 'dX4bpdM1IsAFkAZd' } ]
   //   { title: 'hello world', _id: 'dX4bpdM1IsAFkAZd' } ]
 }
 
@@ -97,4 +104,5 @@ npm test  # runs mocha, see test.js
 ```
 
 ## License
+MIT © 2019 Ray Foss
 MIT © 2017 Arve Seljebu
