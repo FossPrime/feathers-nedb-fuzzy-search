@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/feathers-nedb-fuzzy-search.svg)](https://badge.fury.io/js/feathers-nedb-fuzzy-search) [![Build Status](https://travis-ci.org/arve0/feathers-nedb-fuzzy-search.svg?branch=master)](https://travis-ci.org/arve0/feathers-nedb-fuzzy-search)
+[![npm version](https://badge.fury.io/js/feathers-nedb-fuzzy-search.svg)](https://badge.fury.io/js/feathers-nedb-fuzzy-search)
 
 # feathers-nedb-fuzzy-search
 Add fuzzy `$search` to NeDB `service.find` queries.
@@ -95,6 +95,13 @@ async function testDatabase () {
 testDatabase()
   .catch(e => console.error(e))
 ```
+
+## Plans for 2.0
+- Support MongoDB and NeDB in this adapter
+- Implement global search with $regex, instead of $where and $text which have widly different behavior
+- Implement a $searchOpts parameter with {$native, $caseSensitive} etc
+- Keep the same name, NeDB is the biggest raison d'etre
+  - Though it's not a bad option to simplify MongoDB search queries
 
 ## Development
 ```
