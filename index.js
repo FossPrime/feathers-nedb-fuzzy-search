@@ -1,6 +1,79 @@
-const escape = require('escape-string-regexp')
+const escapeStrRx = require('escape-string-regexp')
 const objectPath = require('object-path')
 const deepReduce = require('deep-reduce')
+const utils = require('feathers-commons')
+const errors = require('feathers-errors')
+
+function transformSearchFieldsInQuery (query, options, fieldName) {
+  utils.each(query, (value, key) => {
+    if (key === '$text') {
+      return
+    }
+    // Process current attribute or  recurse
+    if (value && typeof value === 'object') {
+      // Searchable field ?
+      if (!value.hasOwnProperty('$search')) {
+        return transformSearchFieldsInQuery(value, options, key)
+      }
+      // Field should either be included, or not excluded
+      if ((options.fields.length && !options.fields.includes(key)) ||
+          options.excludedFields.includes(key)) {
+          debugger
+        throw new errors.BadRequest('You are not allowed to perform $search on field ' + key)
+      }
+      transformSearchFieldsInQuery(value, options, key)
+    } else if (key === '$search') {
+      // Default to case insensitive if not given
+      // Sanitize when required
+      if (!options.fieldsNotEscaped.includes(fieldName)) {
+        value = escapeStrRx(value)
+      }
+      // Update query
+      if (fieldName) {
+        query['$regex'] = query.$caseSensitive ? new RegExp(value) : new RegExp(value, 'i')
+      } else {
+        query.$where = fuzzySearch(query.$search, options)
+      }
+      // Delete unused field
+      delete query['$search']
+      delete query['$caseSensitive']
+    }
+  })
+}
+
+function regexFieldSearch (sm) {
+  return function (hook) {
+    transformSearchFieldsInQuery(hook.params.query, sm)
+  }
+}
+
+// Passthough to NeDB driver
+function fullTextSearch (sm) {
+  return function (hook) {
+    if (hook.id || !hook.params.query || !hook.params.query.$search) {
+      return hook
+    }
+    const query = hook.params.query
+    
+    if (hook.method === 'find') {
+      query.$where = fuzzySearch(query.$search, sm)
+    }
+    delete query.$search
+
+    // Not Supported by NeDB, but supported by mongo
+    if (query.$language) {
+      delete query.$language
+    }
+    if (query.$caseSensitive) {
+      delete query.$caseSensitive
+    }
+    if (query.$diacriticSensitive) {
+      delete query.$diacriticSensitive
+    }
+
+    return hook
+  }
+}
 
 /**
  * Add $search to `service.find` query. If `options.fields`
@@ -27,15 +100,26 @@ const deepReduce = require('deep-reduce')
  *
  * @param {object} options
  */
-module.exports = function (options = {}) {
-  return function (hook) {
-    if (hook.method === 'find' && hook.params.query && hook.params.query.$search) {
-      hook.params.query.$where = fuzzySearch(hook.params.query.$search, options)
-      delete hook.params.query.$search
-    }
-    return hook
+function init (opts = {}) {
+  const sm = {}
+  Object.assign(sm, opts)
+  // if escape is undefined -> escape = true
+  sm.escape = sm.escape !== false
+  sm.fieldsNotEscaped = Array.isArray(sm.fieldsNotEscaped) ? sm.fieldsNotEscaped : []
+  // hook for field-based search:
+  if (Array.isArray(sm.fields) && sm.fields.length) {
+    sm.excludedFields = []  // one should not both include and exclude fields
+  } else if (Array.isArray(sm.excludedFields) && sm.excludedFields.length) {
+    sm.fields = []
+  } else {
+    return fullTextSearch(sm)
   }
+  
+  return regexFieldSearch(sm)
 }
+
+module.exports = init
+
 
 /**
  * Returns a $where function for NeDB. The function search all
@@ -46,7 +130,7 @@ module.exports = function (options = {}) {
  * @return {function}
  */
 function fuzzySearch(str, { fields, deep }) {
-  let r = new RegExp(escape(str), 'i')
+  let r = new RegExp(escapeStrRx(str), 'i')
 
   if (Array.isArray(fields)) {
     return function () {
