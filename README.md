@@ -1,3 +1,6 @@
+# MOVED
+Development of feathers-nedb-fuzzy-search have [moved to rayfoss](https://github.com/rayfoss/feathers-nedb-fuzzy-search).
+
 [![npm version](https://badge.fury.io/js/feathers-nedb-fuzzy-search.svg)](https://badge.fury.io/js/feathers-nedb-fuzzy-search) [![Build Status](https://travis-ci.org/arve0/feathers-nedb-fuzzy-search.svg?branch=master)](https://travis-ci.org/arve0/feathers-nedb-fuzzy-search)
 
 # feathers-nedb-fuzzy-search
