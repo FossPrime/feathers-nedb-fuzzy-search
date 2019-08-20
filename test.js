@@ -55,6 +55,19 @@ it ('should find three documents with the text `pytagoras` in them.', async func
   assert.equal(res.length, 3)
 })
 
+it ('should find 96 documents with the text `påvirker` in them.', async function () {
+  res = await service.find({ query: { $search: 'påvirker' } })
+  assert.equal(res.length, 96)
+})
+
+it ('should find `påvirker` with the text `pavirker`.', async function () {
+  _currentHook = search({
+    fuzzyDiacritics: true
+  })
+  res = await service.find({ query: { $search: 'pavirke' } })
+  assert.equal(res.length, 96)
+})
+
 it('should search documents deeply', async function () {
   _currentHook = search({
     deep: true
@@ -82,7 +95,7 @@ it('should not find anything when specifying non existent path', async function 
 it('should perform well', async function () {
   _currentHook = search()
   let times = 50
-  let maxTime = 100
+  let maxTime = 1000
   this.timeout(maxTime * (times + 1))
   let totalTime = 0
   let start
