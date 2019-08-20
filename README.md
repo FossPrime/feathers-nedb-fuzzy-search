@@ -32,13 +32,14 @@ That's `['$text', '$regex']` for MongoDB , and `['$where', '$regex']` for NeDB.
 ```js
 search({
   fields: ['search.this.path', 'this.path.too', 'title'],
-  deep: true
+  deep: true,
+  fuzzyDiacritics: false
 })
 ```
 
 - `fields` - Specify which fields to search.
 - `deep`- If true and `fields` is undefined, will search deep in objects.
-- `fuzzyDiacritics`- If true, diacritics will be ignored.
+- `fuzzyDiacritics`- If true, diacritics will be ignored. 5x slower.
 
 In NeDB `$regex` mode it takes as service options the following:
 
