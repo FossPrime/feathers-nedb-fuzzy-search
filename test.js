@@ -65,7 +65,7 @@ it ('should find `påvirker` with the text `pavirker`.', async function () {
     fuzzyDiacritics: true
   })
   res = await service.find({ query: { $search: 'pavirke' } })
-  assert.equal(res.length, 96)
+  assert.equal(res.length, 181)
 })
 
 it('should search documents deeply', async function () {
