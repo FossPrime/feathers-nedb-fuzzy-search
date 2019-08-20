@@ -1,4 +1,5 @@
 const escapeStrRx = require('escape-string-regexp')
+const normalizeDiacritics = require('normalize-text').normalizeDiacritics
 const objectPath = require('object-path')
 const deepReduce = require('deep-reduce')
 const utils = require('feathers-commons')
@@ -130,7 +131,7 @@ module.exports = init
  * @return {function}
  */
 function fuzzySearch(str, { fields, deep }) {
-  let r = new RegExp(escapeStrRx(str), 'i')
+  let r = new RegExp(escapeStrRx(normalizeDiacritics(str)), 'i')
 
   if (Array.isArray(fields)) {
     return function () {
@@ -139,7 +140,7 @@ function fuzzySearch(str, { fields, deep }) {
           return true
         }
         let value = objectPath.get(this, field)
-        return typeof value === 'string' && value.match(r) !== null
+        return typeof value === 'string' && normalizeDiacritics(value).match(r) !== null
       }, false)
     }
   }
@@ -148,7 +149,7 @@ function fuzzySearch(str, { fields, deep }) {
     return function () {
       let result = deepReduce(this, (match, value) =>
         match || (
-          typeof value === 'string' && value.match(r) !== null
+          typeof value === 'string' && normalizeDiacritics(value).match(r) !== null
         ), false)
       return result
     }
@@ -160,7 +161,7 @@ function fuzzySearch(str, { fields, deep }) {
       if (key[0] === '_' || !this.hasOwnProperty(key)) {
         continue
       }
-      if (typeof this[key] === 'string' && this[key].match(r)) {
+      if (typeof this[key] === 'string' && normalizeDiacritics(this[key]).match(r)) {
         return true
       }
     }
