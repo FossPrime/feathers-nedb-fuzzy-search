@@ -38,6 +38,7 @@ search({
 
 - `fields` - Specify which fields to search.
 - `deep`- If true and `fields` is undefined, will search deep in objects.
+- `fuzzyDiacritics`- If true, diacritics will be ignored.
 
 In NeDB `$regex` mode it takes as service options the following:
 
