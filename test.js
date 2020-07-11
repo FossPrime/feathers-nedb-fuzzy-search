@@ -20,7 +20,12 @@ before(async function () {
 
   app = feathers()
   app.configure(hooks())
-  app.use('/test', NeDBservice({ Model, id: 'kode' }))
+  app.use('/test', NeDBservice({
+    Model,
+    id: 'kode',
+    multi: true,
+    whitelist: [ '$where' ]
+  }))
   app.hooks({
     before: {
       find: currentHook
@@ -46,7 +51,7 @@ after(function remove (done) {
     service.remove('test2')
   ])
   .then(() => {
-    service.Model.persistence.persistCachedDatabase(done)
+    service.options.Model.persistence.persistCachedDatabase(done)
   })
 })
 
