@@ -9,25 +9,35 @@ npm install feathers-nedb-fuzzy-search
 ```
 
 ## Usage
+
+##### Basic usage:
+
 ```js
 const search = require('feathers-nedb-fuzzy-search')
 const messages = app.service('messages')
 
-// enable for message service, may use app.hooks too
+// Enable for message service, may use app.hooks too.
 messages.hooks({
   before: {
-    find: search({['name', 'email']})
+    // Pass an array of fields to be included in fuzzy search.
+    find: search(['name', 'email'])
   }
 })
 
+// Search a particular field.
 let res = await service.find({ query: { name: { $search: 'ello' } } })
+// Search all fields.
 let res = await service.find({ query: $search: 'ello' } })
 ```
 Besure to whitelist non-standard query parameters in your model.
 That's `['$text', '$regex']` for MongoDB , and `['$where', '$regex']` for NeDB. 
 
 ### Options
-`feathers-nedb-fuzzy-search` take two options in NeDB `$where` mode:
+
+Instead of passing an array, you may pass an object containing both the desired
+fields and a few options depending on the mode being used.
+
+In NeDB `$where` mode:
 
 ```js
 search({
@@ -100,7 +110,8 @@ testDatabase()
 
 ## Plans for 2.0
 - Support MongoDB and NeDB in this adapter
-- Implement global search with $regex, instead of $where and $text which have widly different behavior
+- Implement global search with $regex, instead of $where and $text which have
+wildly different behavior
 - Implement a $searchOpts parameter with {$native, $caseSensitive} etc
 - Keep the same name, NeDB is the biggest raison d'etre
   - Though it's not a bad option to simplify MongoDB search queries

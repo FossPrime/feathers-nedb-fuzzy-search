@@ -2,7 +2,7 @@ const feathers = require('feathers')
 const hooks = require('feathers-hooks')
 const NeDB = require('nedb')
 const NeDBservice = require('feathers-nedb')
-const search = require('./')
+const search = require('./lib')
 const assert = require('assert')
 
 let app, service, res
@@ -20,7 +20,12 @@ before(async function () {
 
   app = feathers()
   app.configure(hooks())
-  app.use('/test', NeDBservice({ Model, id: 'kode' }))
+  app.use('/test', NeDBservice({
+    Model,
+    id: 'kode',
+    multi: true,
+    whitelist: [ '$where' ]
+  }))
   app.hooks({
     before: {
       find: currentHook
@@ -46,7 +51,7 @@ after(function remove (done) {
     service.remove('test2')
   ])
   .then(() => {
-    service.Model.persistence.persistCachedDatabase(done)
+    service.options.Model.persistence.persistCachedDatabase(done)
   })
 })
 
@@ -90,6 +95,12 @@ it('should not find anything when specifying non existent path', async function 
   })
   res = await service.find({ query: { $search: 'with string to search for' } })
   assert.equal(res.length, 0)
+})
+
+it ('should allow fields to be passed as array instead of options object.', async function () {
+  _currentHook = search(['some.nested.path'])
+  res = await service.find({ query: { $search: 'with string to search for' } })
+  assert.equal(res.length, 1)
 })
 
 it('should perform well', async function () {
