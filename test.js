@@ -97,6 +97,12 @@ it('should not find anything when specifying non existent path', async function 
   assert.equal(res.length, 0)
 })
 
+it ('should allow fields to be passed as array instead of options object.', async function () {
+  _currentHook = search(['some.nested.path'])
+  res = await service.find({ query: { $search: 'with string to search for' } })
+  assert.equal(res.length, 1)
+})
+
 it('should perform well', async function () {
   _currentHook = search()
   let times = 50
