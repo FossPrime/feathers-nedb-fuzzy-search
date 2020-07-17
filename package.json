@@ -2,7 +2,7 @@
   "name": "feathers-nedb-fuzzy-search",
   "version": "1.3.0",
   "description": "hook which adds fuzzy search for NeDB through $search in find query",
-  "main": "index.js",
+  "main": "lib",
   "scripts": {
     "preversion": "npm test",
     "postpublish": "git push && git push --tags",

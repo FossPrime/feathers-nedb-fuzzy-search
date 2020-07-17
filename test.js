@@ -2,7 +2,7 @@ const feathers = require('feathers')
 const hooks = require('feathers-hooks')
 const NeDB = require('nedb')
 const NeDBservice = require('feathers-nedb')
-const search = require('./')
+const search = require('./lib')
 const assert = require('assert')
 
 let app, service, res
