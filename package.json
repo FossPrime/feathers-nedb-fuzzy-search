@@ -29,14 +29,14 @@
     "feathers-hooks": "^2.1.2",
     "feathers-nedb": "^5.1.0",
     "mocha": "^8.0.1",
-    "nedb": "^1.8.0",
-    "normalize-text": "^2.1.3"
+    "nedb": "^1.8.0"
   },
   "dependencies": {
     "deep-reduce": "^1.0.5",
     "escape-string-regexp": "^4.0.0",
     "feathers-commons": "^0.8.7",
     "feathers-errors": "^2.9.2",
+    "normalize-text": "^2.1.3",
     "object-path": "^0.11.4"
   },
   "runkitExampleFilename": "example.js"
