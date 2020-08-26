@@ -29,7 +29,8 @@ let res = await service.find({ query: { name: { $search: 'ello' } } })
 // Search all fields.
 let res = await service.find({ query: $search: 'ello' } })
 ```
-Besure to whitelist non-standard query parameters in your model.
+Be sure to whitelist non-standard query parameters in your model.
+
 That's `['$text', '$regex']` for MongoDB , and `['$where', '$regex']` for NeDB. 
 
 ### Options
@@ -56,7 +57,7 @@ In NeDB `$regex` mode it takes as service options the following:
 - `excludeFields` - Specify which fields to exclude from search.
 - `fields` - Specify which fields to search. Mutually exclusive. 
 
-As query parameters it also takes `$caseSensitive`
+As query parameters it also takes `$caseSensitive`.
 
 ### Complete example
 ```js
