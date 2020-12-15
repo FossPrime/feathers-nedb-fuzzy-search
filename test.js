@@ -37,9 +37,11 @@ before(async function () {
   await service.create([
     {
       kode: 'test',
+      ref: 42,
       some: { nested: { path: 'with string to search for' } }
     }, {
       kode: 'test2',
+      ref: 1337,
       another: { nested: { path: 'with string to search for' } }
     }
   ])
@@ -72,6 +74,14 @@ it ('should find `påvirker` with the text `pavirker`.', async function () {
   res = await service.find({ query: { $search: 'pavirke' } })
   assert.equal(res.length, 181)
 })
+
+it ('should find 1 document with the text `13` in it.', async function () {
+  _currentHook = search({
+    fields: ['ref']
+  })
+  res = await service.find({ query: { $search: '13' } })
+  assert.equal(res.length, 1)
+});
 
 it('should search documents deeply', async function () {
   _currentHook = search({
