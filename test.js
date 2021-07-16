@@ -1,10 +1,10 @@
-const feathers = require('feathers')
-const hooks = require('feathers-hooks')
-const NeDB = require('nedb')
+const feathers = require('@feathersjs/feathers')
+const NeDB = require('@seald-io/nedb')
 const NeDBservice = require('feathers-nedb')
 const search = require('./lib')
 const assert = require('assert')
 
+const hooks = feathers.hooks
 let app, service, res
 
 let _currentHook = search()
@@ -19,7 +19,6 @@ before(async function () {
   })
 
   app = feathers()
-  app.configure(hooks())
   app.use('/test', NeDBservice({
     Model,
     id: 'kode',

@@ -1,6 +1,6 @@
 {
   "name": "feathers-nedb-fuzzy-search",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "hook which adds fuzzy search for NeDB through $search in find query",
   "main": "lib",
   "scripts": {
@@ -25,13 +25,12 @@
   },
   "homepage": "https://github.com/rayfoss/feathers-nedb-fuzzy-search#readme",
   "devDependencies": {
-    "feathers": "^2.2.4",
-    "feathers-hooks": "^2.1.2",
+    "@feathersjs/feathers": "^4.5.11",
     "feathers-nedb": "^5.1.0",
-    "mocha": "^8.0.1",
-    "nedb": "^1.8.0"
+    "mocha": "^8.0.1"
   },
   "dependencies": {
+    "@seald-io/nedb": "^2.0.4",
     "deep-reduce": "^1.0.5",
     "escape-string-regexp": "^4.0.0",
     "feathers-commons": "^0.8.7",
