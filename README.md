@@ -60,9 +60,8 @@ As query parameters it also takes `$caseSensitive`
 
 ### Complete example
 ```js
-const feathers = require('feathers')
-const hooks = require('feathers-hooks')
-const NeDB = require('nedb')
+const feathers = require('@feathersjs/feathers')
+const NeDB = require('@seald-io/nedb')
 const service = require('feathers-nedb')
 const search = require('feathers-nedb-fuzzy-search')
 
@@ -72,7 +71,6 @@ const Model = new NeDB({
 })
 
 const app = feathers()
-app.configure(hooks())
 app.use('/test', service({ Model }))
 app.hooks({
   before: {
