@@ -108,12 +108,15 @@ testDatabase()
 ```
 
 ## Plans for 2.0
-- Support MongoDB and NeDB in this adapter
+- Support LowDB, MongoDB and @seald/NeDB in this adapter
 - Implement global search with $regex, instead of $where and $text which have
 wildly different behavior
 - Implement a $searchOpts parameter with {$native, $caseSensitive} etc
 - Keep the same name, NeDB is the biggest raison d'etre
   - Though it's not a bad option to simplify MongoDB search queries
+- Typescript
+- Less dependencies
+- Vite/Vavite based build system
 
 ## Development
 ```
